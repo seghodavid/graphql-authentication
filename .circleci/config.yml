@@ -13,14 +13,12 @@ jobs:
       - run:
           command: npm run test
           name: Run tests
-      - run:
-          command: npm run build
-          name: Build app
-      - persist_to_workspace: 
-          root: ~/project
-          path:
-            - .
 workflows:
-  test_app:
+  version: 2
+  build:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only:
+                - main
