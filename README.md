@@ -1,4 +1,3 @@
-```markdown
 # GraphQL Authentication Project
 
 This project provides a basic implementation of authentication using GraphQL, MongoDB, and Jsonwebtoken(JWT).
@@ -69,4 +68,3 @@ Special thanks to the following technologies that made this project possible:
 ## Contact
 
 For inquiries, please email [seghosimhedavid19@gmail.com](mailto:seghosimhedavid19@gmail.com).
-```
