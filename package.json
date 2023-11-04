@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "start:dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "install": "npm install --legacy-peer-deps"
   },
   "author": "",
   "license": "ISC",
