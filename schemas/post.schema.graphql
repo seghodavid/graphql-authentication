@@ -1,0 +1,88 @@
+const { 
+  GraphQLObjectType, 
+  GraphQLString,
+  GraphQLSchema,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLID
+} = require('graphql');
+
+const postSchema = require('../models/post.js');
+const postResolver = require('../resolvers/post.resolver.graphql');
+const User = require('../models/user.js');
+const { UserType } = require('./user.schema.graphql')
+
+const PostType = new GraphQLObjectType ({
+    name: 'Post',
+    fields: () => ({
+        id: { type: GraphQLID }
+        title: { type: GraphQLString },
+        description: { type:GraphQLString },
+        author: {
+            type: UserType,
+            resolve (parent, args) {
+                return User.findById(parent.author);
+            }
+        }
+    })
+});
+
+const schema = new GraphQLSchema ({
+    query: new GraphQLObjectType ({
+        name: 'Query',
+        fields: () => ({
+            get: {
+                type: GraphQLList,
+                resolve() {
+                    return 'This is a list of posts'
+                }
+            }
+        })
+    })
+
+    mutation: new GraphQLObjectType ({
+        name: 'Mutation',
+        fields: () => ({
+            post: {
+                type: PostType,
+                args: {
+                    title: { type: GraphQLString },
+                    description: { type: GraphQLString },
+                    author: {
+                        type: UserType,
+                        resolve (parent, args) {
+                            return User.findById(parent.author);
+                        }
+                    }
+                },
+                resolve (parent, args) {
+                    return 'This creates a new post'
+                }
+            },
+            update: {
+                type: GraphQLString,
+                args: {
+                    title: { type: GraphQLString },
+                    description: { type: GraphQLString},
+                    newTitle: { type: GraphQLString },
+                    newDescription: { type: GraphQLString }
+                },
+                resolve (parent, args) {
+                    return 'This post has been updated successfully'
+                }
+            },
+            delete: {
+                type: GraphQLString,
+                args: {
+                    id: {type: GraphQLID}
+                },
+                resolve (parent, args) {
+                    return 'This post has been deleted successfully'
+                }
+            }
+        })
+    })
+})
+
+module.exports = schema;

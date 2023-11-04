@@ -1,0 +1,82 @@
+const {
+    GraphQLObjectType,
+    GraphQLString,
+    GraphQLSchema,
+    GraphQLID,
+    GraphQLInt,
+    GraphQLNonNull,
+    GraphQLList
+} = require('graphql')
+
+const userSchema = require('../models/user.js');
+const userResolver = require('../resolvers/user.resolver.graphql')
+
+const UserType = new GraphQLObjectType({
+    name: 'User',
+    fields: () => ({
+        id: { type: GraphQLID },
+        fullname: { type: GraphQLString },
+        username: { type: GraphQLString },
+        email: { type: GraphQLString },
+        password: { type: GraphQLString }
+    })
+})
+
+const schema = new GraphQLSchema ({
+    query: new GraphQLObjectType ({
+        name: 'Query',
+        fields: () => ({
+            get: {
+                type: GraphQLList,
+                resolve() {
+                    return 'This returns a list of users'
+                }
+            }
+        })
+    }),
+
+    mutation: new GraphQLObjectType ({
+        name: 'Mutation',
+        fields: () => ({
+            post: {
+                type: UserType,
+                args: {
+                    fullname: { type: GraphQLString },
+                    username: { type: GraphQLString },
+                    email: { type: GraphQLString },
+                    password: { type: GraphQLString }
+                },
+                resolve(parent, args) => {
+                    return 'This creates a new user'
+                }
+            },
+            update: {
+                type: GraphQLString,
+                args: {
+                    id: { type: GraphQLID },
+                    username: { type: GraphQLString },
+                    newUsername: { type: GraphQLString},
+                },
+                resolve(parent, args) {
+                    return ' This updates a user'
+                }
+            },
+            delete: {
+                type: GraphQLString,
+                args: {
+                    id: { type: GraphQLID }
+                },
+                resolve(parent, args) {
+                    return 'This deletes a user'
+                }
+            }
+        })
+    })
+})
+
+
+
+module.exports = {
+    UserType,
+    schema
+}
