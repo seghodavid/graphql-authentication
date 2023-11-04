@@ -8,6 +8,10 @@ jobs:
     executor: node/default
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
+            - v1-deps-
       - node/install-packages:
           pkg-manager: npm
       - run:
