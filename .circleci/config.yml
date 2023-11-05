@@ -8,6 +8,9 @@ jobs:
     executor: node/default
     steps:
       - checkout
+      -run:
+          command: npm run dependency:fix
+          name: Fixes package dependency conflicts
       - restore_cache:
           keys:
             - v1-deps-{{ checksum "package-lock.json" }}
