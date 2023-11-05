@@ -8,7 +8,7 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      -run:
+      - run:
           command: npm run dependency:fix
           name: Fixes package dependency conflicts
       - restore_cache:
